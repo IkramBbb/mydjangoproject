@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{ news_item.title }} :: {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+  <div class="card-header">
+    Категория: <a href="{{ news_item.category.get_absolute_url }}">{{ news_item.category }}</a>
+  </div>
+  <div class="card-body">
+      {% if news_item.photo %}
+      <img src="{{ news_item.photo.url }}" alt="" width="550" class="mr-3">
+      {% else %}
+      <img src="https://www.feednavigator.com/var/wrbm_gb_food_pharma/storage/images/9/2/8/5/235829-6-eng-GB/Feed-Test-SIC-Feed-20142.jpg" alt="" width="550" class="mr-3">
+      {% endif %}
+
+      <h5 class="card-title">{{ news_item.title }}</h5>
+      <p class="card-text">{{ news_item.content|safe|linebreaks }}</p>
+      <script async src="https://telegram.org/js/telegram-widget.js?16" data-text="notext" data-size="large" data-telegram-share-url="http://127.0.0.1:8000{{ news_item.get_absolute_url }}"></script>
+  </div>
+  <div class="card-footer text-muted">{{ news_item.created_at|timesince }}</div>
+</div>
+{% endblock %}

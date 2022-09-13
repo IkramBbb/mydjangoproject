@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+{% for item in news %}
+<div class="card mb-3">
+  <div class="card-header">
+    Категория: <a href="{{ item.category.get_absolute_url }}">{{ item.category }}</a> <span class="text-end mx-5"> Автор: {{ item.username }}</span>
+  </div>
+  <div class="card-body">
+    <div class="media d-inline-flex">
+      {% if item.photo %}
+        <img src="{{ item.photo.url }}" alt="" width="350" class="m-2">
+      {% else %}
+        <img src="https://www.feednavigator.com/var/wrbm_gb_food_pharma/storage/images/9/2/8/5/235829-6-eng-GB/Feed-Test-SIC-Feed-20142.jpg" width="350" alt="" class="m-2">
+      {% endif %}
+      <div class="media-body m-2">
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="card-text">{{ item.content|safe|linebreaks|truncatewords:50 }}</p>
+        <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Read more...</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-footer text-muted">{{ item.created_at|timesince }}</div>
+</div>
+{% endfor %}
+{% endblock %}
